@@ -30,7 +30,8 @@ func Metrics(next web.Handler) web.Handler {
 		ctx, span := trace.StartSpan(ctx, "internal.mid.Metrics")
 		defer span.End()
 
-		next(ctx, log, w, r, params)
+		// Call the next handler and capture its error value.
+		err := next(ctx, log, w, r, params)
 
 		// Add one to the request counter.
 		m.req.Add(1)
@@ -41,13 +42,13 @@ func Metrics(next web.Handler) web.Handler {
 		}
 
 		// Add one to the errors counter if an error occured
-		// on this reuqest.
-		v := ctx.Value(web.KeyValues).(*web.Values)
-		if v.Error {
+		// on this request.
+		if err != nil {
 			m.err.Add(1)
 		}
 
-		return nil
+		// For consistency return the error we received.
+		return err
 	}
 
 	return h
