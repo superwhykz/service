@@ -1,0 +1,15 @@
+#
+# Example based on ardanlabs.com domain
+#
+dispatch:
+  # Default service serves simple hostname request.
+  - url: "gcp.api.ardanlabs.com/"
+    service: default
+
+  # Send all dev traffic sales-api
+  - url: "gcp.api.ardanlabs.com/dev/sales-api/*"
+    service: gcp-sales-api-dev
+
+  # Send all prod traffic sales-api
+  - url: "gcp.api.ardanlabs.com/sales-api/*"
+    service: gcp-sales-api-prod

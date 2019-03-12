@@ -8,6 +8,7 @@ import (
 
 	"github.com/ardanlabs/service/internal/platform/auth"
 	"github.com/ardanlabs/service/internal/platform/web"
+
 	"github.com/pkg/errors"
 )
 

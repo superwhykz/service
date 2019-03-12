@@ -1,0 +1,34 @@
+steps:
+  - name: "gcr.io/cloud-builders/go"
+    env:
+      - "PROJECT_ROOT=service"
+      - "GOOS=linux"
+      - "GOARCH=amd64"
+      - "CGO_ENABLED=0"
+    args:
+      [
+        "install",
+        "-ldflags",
+        "-d -s -w -X main.version=${TAG_NAME} -X main.commit=${COMMIT_SHA} -X main.repo=${REPO_NAME}",
+        "-a",
+        "-tags",
+        "netgo",
+        "-installsuffix",
+        "netgo",
+        "service/cmd/gcp-sales-api",
+      ]
+    id: "go-install"
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/${PROJECT_ID}/gcp-sales-api:${TAG_NAME}",
+        "-f",
+        "cmd/gcp-sales-api/Dockerfile",
+        ".",
+      ]
+    id: "docker-build"
+
+images: ["gcr.io/${PROJECT_ID}/gcp-sales-api:${TAG_NAME}"]

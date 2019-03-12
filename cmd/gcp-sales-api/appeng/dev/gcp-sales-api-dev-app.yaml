@@ -1,0 +1,18 @@
+runtime: go111
+
+# Service Name
+service: "gcp-sales-api-dev"
+
+# Settings for service
+env_variables:
+  PROJECT_ID: "PROJECT_ID_NEEDED"
+  API_ENV: "development"
+  API_HOST: "0.0.0.0:8080"
+# Health checks removing this for DEV env
+# readiness_check:
+#   path: "/dev/gcp-sales-api/v1/health"
+#   check_interval_sec: 90
+#   timeout_sec: 40
+#   failure_threshold: 5
+#   success_threshold: 2
+#   app_start_timeout_sec: 300
